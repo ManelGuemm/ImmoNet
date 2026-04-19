@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Environnements virtuels
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Système
+.DS_Store
+Thumbs.db
+
+
+# Secrets
+.env
+.env.*
+
+Donnees/Fichier_sans_colonnes_hors_model.csv
+Donnees/listings.csv
+Donnees/calendar.csv
+Donnees/reviews.csv
+Donnees/listings_price_valide.csv
