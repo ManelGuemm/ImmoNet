@@ -1,0 +1,35 @@
+Résumé CV - CatBoost tabulaire seul
+==========================================================================================
+
+La validation croisée est faite uniquement sur train_dev.
+Le test final n'est jamais utilisé pendant la CV.
+Les poids sont calculés uniquement sur le train de chaque fold.
+Validation pondérée : False
+Nombre de folds : 5
+
+Métriques OOF globales - price_euros
+------------------------------------------------------------------------------------------
+n                             : 42996.000000
+MAE                           : 48.644636
+RMSE                          : 108.403405
+MedAE                         : 22.602823
+R2                            : 0.642636
+MAPE_pct                      : 25.588438
+SMAPE_pct                     : 23.740076
+Mean_Error                    : -7.737438
+Underestimation_Rate_pct      : 45.348405
+Overestimation_Rate_pct       : 54.651595
+Abs_Error_P75                 : 51.366460
+Abs_Error_P90                 : 105.169597
+Abs_Error_P95                 : 163.905095
+
+Nombre d'arbres par fold
+------------------------------------------------------------------------------------------
+  fold  best_iteration  tree_count                                                                                                                                  model_path
+fold_1            7999        8000 /workspace/airbnb_text_e5_lora_stacking/Resultats_Tabulaire_Only_KFold_CatBoost_ManualAggressive_C05/modeles/catboost_tabular_cv_fold_1.cbm
+fold_2            7998        7999 /workspace/airbnb_text_e5_lora_stacking/Resultats_Tabulaire_Only_KFold_CatBoost_ManualAggressive_C05/modeles/catboost_tabular_cv_fold_2.cbm
+fold_3            7984        7985 /workspace/airbnb_text_e5_lora_stacking/Resultats_Tabulaire_Only_KFold_CatBoost_ManualAggressive_C05/modeles/catboost_tabular_cv_fold_3.cbm
+fold_4            7999        8000 /workspace/airbnb_text_e5_lora_stacking/Resultats_Tabulaire_Only_KFold_CatBoost_ManualAggressive_C05/modeles/catboost_tabular_cv_fold_4.cbm
+fold_5            7999        8000 /workspace/airbnb_text_e5_lora_stacking/Resultats_Tabulaire_Only_KFold_CatBoost_ManualAggressive_C05/modeles/catboost_tabular_cv_fold_5.cbm
+
+Nombre d'arbres retenu pour le modèle final : 8000

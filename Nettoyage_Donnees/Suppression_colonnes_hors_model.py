@@ -2,8 +2,6 @@ import pandas as pd
 
 ''' Fichier qui supprime les colonnes qui ne sont pas utilisées dans aucun modèle de prédiction '''
 
-
-
 # Fichier d'entrée
 fichier_entree = "listings_types_corriges.csv"
 

@@ -15,7 +15,13 @@ env/
 
 # Logs
 *.log
-
+# Modèles lourds
+*.h5
+*.pt
+*.pth
+*.pkl
+*.joblib
+*.cbm
 # Système
 .DS_Store
 Thumbs.db
@@ -30,3 +36,5 @@ Donnees/listings.csv
 Donnees/calendar.csv
 Donnees/reviews.csv
 Donnees/listings_price_valide.csv
+
+*/saved_lora_models/

@@ -1,11 +1,6 @@
 import pandas as pd
 from pathlib import Path
 
-''' Fichier qui travaille sur le excel listings_price_valide.csv et qui fait un audit de 
-    chaque colonne pour voir les colonnes vides, quasi vides, constantes, etc 
-    et sauvegearde un rapport sous le nom " rapport_audit'''
-
-
 FICHIER_CSV = "listings_price_valide.csv"
 FICHIER_SORTIE_EXCEL = "audit_colonnes.xlsx"
 SEUIL_QUASI_VIDE = 95.0   # en %
@@ -18,7 +13,6 @@ print(f"Fichier chargé : {len(df)} lignes, {len(df.columns)} colonnes")
 
 # On transforme les chaînes vides ou composées d'espaces en NaN
 df = df.replace(r"^\s*$", pd.NA, regex=True)
-
 
 # AUDIT PAR COLONNE
 rapport = []

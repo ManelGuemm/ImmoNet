@@ -1,0 +1,61 @@
+Résumé final - CatBoost tabulaire + textuel + visuel PCA 256
+Sans pondération premium et sans text_pred_final
+====================================================================================================
+
+Protocole
+----------------------------------------------------------------------------------------------------
+Le split train_dev/test_final vient de split_listing_ids.csv.
+La CV 5-fold est faite uniquement sur train_dev.
+Le test_final est utilisé une seule fois à la fin.
+Les embeddings visuels EfficientNet-B0 sont réduits à 256 composantes par PCA.
+La PCA est apprise uniquement sur le train de chaque fold, puis sur train_dev pour le modèle final.
+Les features textuelles E5-LoRA sont utilisées sans text_pred_final.
+La pondération est uniforme : les logements chers ne sont pas surpondérés.
+drop_price_above : None
+
+Données utilisées
+----------------------------------------------------------------------------------------------------
+Train_dev : 42976
+Test_final : 10745
+Variables tabulaires : 75
+Variables textuelles : 103
+Composantes visuelles PCA : 256
+Variance expliquée PCA visuelle finale : 0.795503
+
+Métriques CV OOF - price_euros
+----------------------------------------------------------------------------------------------------
+n                             : 42976.000000
+MAE                           : 49.380408
+RMSE                          : 114.999489
+MedAE                         : 22.057673
+R2                            : 0.599816
+MAPE_pct                      : 24.674742
+SMAPE_pct                     : 23.692158
+Mean_Error                    : -14.587707
+Underestimation_Rate_pct      : 47.063477
+Overestimation_Rate_pct       : 52.936523
+Abs_Error_P75                 : 49.542498
+Abs_Error_P90                 : 102.949737
+Abs_Error_P95                 : 166.177462
+
+Métriques test final - log_price
+----------------------------------------------------------------------------------------------------
+MAE log : 0.242485
+RMSE log : 0.340871
+R2 log : 0.796683
+
+Métriques test final - price_euros
+----------------------------------------------------------------------------------------------------
+MAE : 49.120324 €
+RMSE : 112.733198 €
+R2 : 0.610886
+Biais moyen : -18.284386 €
+
+Segments test final
+----------------------------------------------------------------------------------------------------
+  segment    n        MAE       RMSE      MedAE  Mean_Error  Underestimation_Rate_pct  Abs_Error_P90  Abs_Error_P95
+  < 100 € 3845  16.021388  24.830741  10.948141    9.162748                 33.055917      33.849549      47.799592
+100-200 € 3717  29.800289  40.341985  23.065383    4.537313                 48.291633      62.885005      82.400497
+200-400 € 2356  59.898503  77.052008  49.196935  -23.317263                 66.680815     121.888655     151.822296
+400-800 €  649 165.065712 203.343941 144.927229 -138.135632                 85.824345     318.893545     393.807670
+  > 800 €  178 602.131748 700.372328 523.379192 -584.135863                 96.067416     986.150396    1321.152218

@@ -1,0 +1,39 @@
+Rapport ConvNeXt image seule - prédiction directe de log_price
+==========================================================================================
+
+Reprise après interruption du pod.
+Les 5 modèles de folds étaient déjà sauvegardés.
+Le test final est prédit par moyenne des prédictions des 5 folds sur log_price.
+
+Modèle : ConvNeXt-base
+Nombre d'annonces test_final : 10749
+Temps de prédiction : 16.52 minutes
+
+Métriques test_final sur log_price
+------------------------------------------------------------------------------------------
+MAE: 0.451661
+RMSE: 0.594499
+MedAE: 0.353414
+R2: 0.381428
+Biais_moyen: 0.007635
+Sous_estimation_pct: 47.464880
+Surestimation_pct: 52.535120
+Erreur_absolue_P90: 0.954044
+Erreur_absolue_P95: 1.200187
+
+Métriques test_final en euros
+------------------------------------------------------------------------------------------
+MAE: 82.165277
+RMSE: 157.493201
+MedAE: 45.013755
+R2: 0.240327
+Biais_moyen: -24.150124
+Sous_estimation_pct: 47.464880
+Surestimation_pct: 52.535120
+Erreur_absolue_P90: 173.027872
+Erreur_absolue_P95: 269.682484
+
+Fichiers late fusion disponibles
+------------------------------------------------------------------------------------------
+09_predictions_oof_for_late_fusion.csv
+10_predictions_test_for_late_fusion.csv

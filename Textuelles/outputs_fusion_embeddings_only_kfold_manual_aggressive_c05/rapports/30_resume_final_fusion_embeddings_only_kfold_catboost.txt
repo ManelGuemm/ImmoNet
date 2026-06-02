@@ -1,0 +1,84 @@
+Résumé final - Fusion tabulaire + embeddings texte avec CatBoost + K-fold CV
+====================================================================================================
+
+Candidat retenu
+----------------------------------------------------------------------------------------------------
+manual_aggressive__C05_premium_oriented
+
+Protocole
+----------------------------------------------------------------------------------------------------
+Le split train/test vient de la branche texte via split_listing_ids.csv.
+La validation croisée 5-fold est faite uniquement sur le train.
+Le test final n'est jamais utilisé pendant la CV.
+Les poids manual_aggressive sont calculés seulement sur le train de chaque fold.
+La validation du fold reste non pondérée, sauf si weight_validation_pool=True.
+Le nombre d'arbres du modèle final est la médiane des tree_count obtenus en CV.
+Le modèle final est entraîné sur tout le train, puis évalué une seule fois sur le test final.
+La variable text_pred_final est volontairement exclue.
+Les embeddings txt_e5_000 à txt_e5_099 sont conservés.
+
+Configuration CatBoost
+----------------------------------------------------------------------------------------------------
+iterations max CV : 8000
+iterations final : 8000
+learning_rate : 0.015
+depth : 7
+l2_leaf_reg : 8.0
+random_strength : 1.0
+bagging_temperature : 0.6
+rsm : 0.95
+early_stopping_rounds : 300
+task_type : CPU
+modèle final : /workspace/airbnb_text_e5_lora_stacking/outputs_fusion_embeddings_only_kfold_manual_aggressive_c05/modeles/catboost_final_full_train_embeddings_only_kfold.cbm
+
+Pondération manual_aggressive
+----------------------------------------------------------------------------------------------------
+< 100 € : 1.0
+100-200 € : 1.0
+200-400 € : 1.15
+400-800 € : 2.0
+> 800 € : 3.5
+clip_min : 0.5
+clip_max : 6.0
+
+Métriques CV OOF - price_euros
+----------------------------------------------------------------------------------------------------
+n                             : 42996.000000
+MAE                           : 49.042910
+RMSE                          : 111.700777
+MedAE                         : 22.372404
+R2                            : 0.622317
+MAPE_pct                      : 25.207951
+SMAPE_pct                     : 23.728312
+Mean_Error                    : -10.661237
+Underestimation_Rate_pct      : 46.122895
+Overestimation_Rate_pct       : 53.877105
+Abs_Error_P75                 : 50.514531
+Abs_Error_P90                 : 104.143717
+Abs_Error_P95                 : 164.467791
+
+Métriques test final - log_price
+----------------------------------------------------------------------------------------------------
+MAE log : 0.2457
+RMSE log : 0.3425
+R2 log : 0.7946
+
+Métriques test final - price_euros
+----------------------------------------------------------------------------------------------------
+MAE : 49.4038 €
+RMSE : 110.7454 €
+R2 : 0.6244
+Biais moyen : -15.0431 €
+
+Segments test final
+----------------------------------------------------------------------------------------------------
+  segment    n        MAE       RMSE      MedAE  Mean_Error  Underestimation_Rate_pct  Abs_Error_P90  Abs_Error_P95
+  < 100 € 3846  16.732192  25.895434  11.235553   10.086866                 32.475299      36.357603      50.839963
+100-200 € 3719  31.770313  44.074712  23.891999    7.108201                 46.356547      67.681913      90.431910
+200-400 € 2357  60.345193  78.897305  48.738869  -18.695746                 64.234196     124.573714     155.272163
+400-800 €  649 158.646626 196.664785 138.402815 -127.240597                 83.667180     312.028279     362.236903
+  > 800 €  178 580.563881 679.783824 495.224360 -563.387915                 96.067416     939.985065    1279.076326
+
+Lecture critique
+----------------------------------------------------------------------------------------------------
+Cette version est plus solide méthodologiquement que la version avec un simple split interne, car le choix du nombre d'arbres est estimé sur plusieurs folds du train. Le test final reste isolé jusqu'à la dernière étape. Si les résultats test final sont proches des résultats OOF, le modèle est plutôt stable. Si le test final est beaucoup moins bon que l'OOF, il faudra vérifier la distribution du test, la représentativité des logements chers et la cohérence du split texte.

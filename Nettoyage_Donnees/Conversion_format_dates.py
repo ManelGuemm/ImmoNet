@@ -1,9 +1,5 @@
 import pandas as pd
 
-' Fichier qui convertit les colonnes de dates du fichier listings_avec_annonces_supprimees '
-' en format date et sauvegarde le résultat dans listings_dates_converties.csv '
-
-
 # Fichier d'entrée
 fichier_csv = "listings_avec_annonces_supprimees.csv"
 

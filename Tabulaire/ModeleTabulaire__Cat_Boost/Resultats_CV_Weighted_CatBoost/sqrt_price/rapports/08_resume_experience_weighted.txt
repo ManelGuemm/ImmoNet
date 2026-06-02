@@ -1,0 +1,64 @@
+CatBoost pondéré - sqrt_price
+================================================================================
+
+Fichier d'entrée : C:\Users\manel\OneDrive\Documents\ImmoNet\ImmoNet\Tabulaire\Donnees_Tabulaires\airbnb_tabulaire_final_catboost_rates_corriges.csv
+Dimensions X : (53745, 64)
+Catégorielles : ['host_response_time_clean', 'room_type_clean', 'neighbourhood_cleansed_clean', 'property_type_clean']
+
+Configuration pondération
+--------------------------------------------------------------------------------
+{
+  "name": "sqrt_price",
+  "strategy": "sqrt_price",
+  "manual_price_weights": [
+    1.0,
+    1.0,
+    1.1,
+    1.5,
+    2.5
+  ],
+  "weight_n_bins": 20,
+  "weight_power": 0.5,
+  "weight_clip_min": 0.5,
+  "weight_clip_max": 5.0
+}
+
+Métriques OOF globales - log_price
+--------------------------------------------------------------------------------
+n                             : 53745.000000
+MAE                           : 0.258331
+RMSE                          : 0.355525
+MedAE                         : 0.197816
+R2                            : 0.780384
+MAPE_pct                      : 5.383126
+SMAPE_pct                     : 5.293257
+Mean_Error                    : 0.056566
+Underestimation_Rate_pct      : 40.679133
+Overestimation_Rate_pct       : 59.320867
+Abs_Error_P75                 : 0.351028
+Abs_Error_P90                 : 0.539374
+Abs_Error_P95                 : 0.689724
+
+Métriques OOF globales - price_euros
+--------------------------------------------------------------------------------
+n                             : 53745.000000
+MAE                           : 50.994897
+RMSE                          : 109.948697
+MedAE                         : 25.099017
+R2                            : 0.633219
+MAPE_pct                      : 28.576807
+SMAPE_pct                     : 25.321110
+Mean_Error                    : -3.691578
+Underestimation_Rate_pct      : 40.679133
+Overestimation_Rate_pct       : 59.320867
+Abs_Error_P75                 : 54.845300
+Abs_Error_P90                 : 108.351928
+Abs_Error_P95                 : 166.807651
+
+Segments de prix - OOF global
+--------------------------------------------------------------------------------
+   < 100 € | n=19288 | MAE=20.95€ | RMSE=34.14€ | Biais=15.81€ | Sous-estimation=25.90%
+ 100-200 € | n=18595 | MAE=35.55€ | RMSE=51.04€ | Biais=17.11€ | Sous-estimation=37.73%
+ 200-400 € | n=11645 | MAE=60.88€ | RMSE=81.18€ | Biais=-3.37€ | Sous-estimation=55.84%
+ 400-800 € | n= 3270 | MAE=144.87€ | RMSE=188.35€ | Biais=-94.21€ | Sous-estimation=75.47%
+   > 800 € | n=  947 | MAE=520.62€ | RMSE=638.46€ | Biais=-500.72€ | Sous-estimation=93.14%

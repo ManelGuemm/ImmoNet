@@ -1,0 +1,66 @@
+Résumé final - Fusion tabulaire + texte avec CatBoost
+==========================================================================================
+
+Candidat retenu
+------------------------------------------------------------------------------------------
+manual_aggressive__C05_premium_oriented
+
+Protocole
+------------------------------------------------------------------------------------------
+Le split train/test vient de la branche texte via split_listing_ids.csv.
+Aucun nouveau test split aléatoire n'a été créé.
+La validation interne sert uniquement à l'early stopping.
+Les poids manual_aggressive sont calculés uniquement sur le train interne.
+Les colonnes price, log_price, les identifiants et les variables interdites sont exclues des features.
+La cible est log_price.
+Un modèle production est aussi entraîné sur tout le train avec tree_count_ fixé, mais il ne sert pas aux métriques officielles.
+
+Configuration CatBoost
+------------------------------------------------------------------------------------------
+iterations : 8000
+learning_rate : 0.015
+depth : 7
+l2_leaf_reg : 8.0
+random_strength : 1.0
+bagging_temperature : 0.6
+rsm : 0.95
+early_stopping_rounds : 300
+task_type : CPU
+best_iteration : 7996
+tree_count : 7997
+
+Pondération manual_aggressive
+------------------------------------------------------------------------------------------
+< 100 € : 1.0
+100-200 € : 1.0
+200-400 € : 1.15
+400-800 € : 2.0
+> 800 € : 3.5
+clip_min : 0.5
+clip_max : 6.0
+
+Métriques test final - log_price
+------------------------------------------------------------------------------------------
+MAE log : 0.2469
+RMSE log : 0.3437
+R2 log : 0.7933
+
+Métriques test final - price_euros
+------------------------------------------------------------------------------------------
+MAE : 49.7601 €
+RMSE : 110.8011 €
+R2 : 0.6240
+Biais moyen : -11.9110 €
+
+Segments test final
+------------------------------------------------------------------------------------------
+  segment    n        MAE       RMSE      MedAE  Mean_Error  Underestimation_Rate_pct  Abs_Error_P90  Abs_Error_P95
+  < 100 € 3846  17.140728  26.345714  11.276933   10.371833                 32.319293      37.006975      52.693786
+100-200 € 3719  33.043332  45.951206  24.363526    9.835610                 44.716322      72.483918      93.885352
+200-400 € 2357  60.650315  80.134477  47.277984  -12.447020                 61.646160     127.628756     162.726922
+400-800 €  649 155.307894 195.075124 131.045985 -115.833406                 80.739599     306.044765     390.712164
+  > 800 €  178 574.786952 677.110705 507.729116 -561.723302                 96.629213     951.621130    1256.427431
+
+Lecture critique
+------------------------------------------------------------------------------------------
+Ce modèle fusionne les variables tabulaires avec les sorties de la branche texte. La variable text_pred_final apporte une prédiction texte-only issue d'un stacking propre. Les composantes txt_e5_000 à txt_e5_099 apportent une représentation sémantique réduite par PCA. Les performances doivent être comparées au tabulaire seul et au texte seul, en particulier par segments de prix.

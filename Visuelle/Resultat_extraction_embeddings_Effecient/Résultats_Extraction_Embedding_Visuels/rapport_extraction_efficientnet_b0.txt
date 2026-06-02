@@ -1,0 +1,34 @@
+Rapport extraction embeddings EfficientNet-B0
+================================================================================
+
+Dossier images : London
+Dossier sortie : Resultat2
+Nombre d'images trouvées au départ : 53745
+Nombre d'embeddings extraits : 53721
+Dimension embeddings : 1280
+Images non lisibles : 24
+
+Fichiers générés
+--------------------------------------------------------------------------------
+NPY embeddings : Resultat2/efficientnet_b0_embeddings.npy
+IDs alignés NPY : Resultat2/efficientnet_b0_embeddings_ids.csv
+CSV complet : Resultat2/efficientnet_b0_embeddings.csv
+Images non lisibles : Resultat2/images_non_lisibles.csv
+
+Contrôle split
+--------------------------------------------------------------------------------
+Nombre d'annonces attendues : 53745
+Nombre d'annonces avec embedding : 53721
+Nombre d'annonces sans embedding : 24
+Nombre d'embeddings en trop : 0
+
+Temps d'exécution
+--------------------------------------------------------------------------------
+Temps total secondes : 4047.42
+Temps total minutes : 67.46
+
+Remarque
+--------------------------------------------------------------------------------
+Le fichier efficientnet_b0_embeddings.npy contient uniquement les vecteurs numériques.
+Le fichier efficientnet_b0_embeddings_ids.csv relie chaque ligne du NPY à listing_id_clean.
+Pour CatBoost, il est conseillé d'utiliser le NPY + le fichier IDs plutôt que le gros CSV complet.

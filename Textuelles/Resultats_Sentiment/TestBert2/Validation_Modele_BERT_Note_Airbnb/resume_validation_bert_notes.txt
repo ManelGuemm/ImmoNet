@@ -1,0 +1,69 @@
+VALIDATION DU SENTIMENT BERT AVEC LES NOTES AIRBNB
+
+Nombre de lignes tabulaire : 53745
+Nombre d'annonces avec sentiment BERT : 41923
+Nombre d'annonces exploitables avec review_scores_rating et BERT : 41923
+
+Corrélations principales avec review_scores_rating :
+- bert_stars_moyen : Pearson=0.8446, Spearman=0.7168
+- sentiment_bert_moyen : Pearson=0.8446, Spearman=0.7168
+- ratio_avis_bert_positifs : Pearson=0.7924, Spearman=0.6668
+- sentiment_bert_min : Pearson=0.3786, Spearman=0.5881
+- bert_confiance_moyenne : Pearson=0.3238, Spearman=0.4605
+- sentiment_bert_max : Pearson=0.6588, Spearman=0.1706
+- nb_avis_bert_positifs : Pearson=0.1023, Spearman=-0.0967
+- nb_avis_textuels_bert : Pearson=0.0899, Spearman=-0.1513
+- nb_avis_bert_neutres : Pearson=-0.0705, Spearman=-0.4024
+- ratio_avis_bert_neutres : Pearson=-0.3122, Spearman=-0.4616
+
+Validation directe bert_stars_moyen vs review_scores_rating :
+- MAE : 0.1913
+- RMSE : 0.3184
+- R2 : 0.6073
+
+Régression train/test : variables BERT -> review_scores_rating
+- MAE test : 0.1463
+- RMSE test : 0.2553
+- R2 test : 0.7257
+
+Classification directe classes BERT vs classes note Airbnb
+- Accuracy : 0.8200
+- Balanced accuracy : 0.7921
+- F1 macro : 0.7053
+
+Classification train/test : variables BERT -> classe note Airbnb
+- Accuracy : 0.8140
+- Balanced accuracy : 0.7860
+- F1 macro : 0.7034
+- ROC-AUC macro : 0.9269
+
+Validation binaire : détecter review_scores_rating < 4.5
+- accuracy : 0.8605
+- balanced_accuracy : 0.8677
+- f1 : 0.6958
+- roc_auc : 0.9356
+- average_precision : 0.8003
+- n_test : 8385
+
+Rapport classification direct :
+              precision    recall  f1-score   support
+
+     negatif       0.59      0.84      0.70      1995
+      neutre       0.41      0.70      0.52      5614
+     positif       0.97      0.84      0.90     34314
+
+    accuracy                           0.82     41923
+   macro avg       0.66      0.79      0.71     41923
+weighted avg       0.88      0.82      0.84     41923
+
+
+Rapport classification train/test :
+              precision    recall  f1-score   support
+
+     negatif       0.61      0.82      0.70       399
+      neutre       0.40      0.70      0.51      1123
+     positif       0.97      0.83      0.89      6863
+
+    accuracy                           0.81      8385
+   macro avg       0.66      0.79      0.70      8385
+weighted avg       0.88      0.81      0.83      8385

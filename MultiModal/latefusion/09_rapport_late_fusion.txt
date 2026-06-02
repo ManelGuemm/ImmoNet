@@ -1,0 +1,41 @@
+Rapport late fusion tabulaire + texte + image
+==========================================================================================
+
+Données utilisées
+------------------------------------------------------------------------------------------
+Train OOF fusionné : 42996 lignes
+Test final fusionné : 10749 lignes
+Variables de fusion : pred_tab_log, pred_text_log, pred_image_log
+
+Remarque méthodologique
+------------------------------------------------------------------------------------------
+Le split maître est celui du modèle tabulaire CatBoost. Les prédictions texte et image ont été concaténées sur l'ensemble train+test de leurs expériences respectives, puis réalignées sur les identifiants du split tabulaire. Cette étape est nécessaire car les splits texte/image ne sont pas exactement alignés avec le split tabulaire.
+
+Métriques des modèles individuels
+------------------------------------------------------------------------------------------
+         model  train_n  train_MAE_log  train_RMSE_log  train_MedAE_log  train_R2_log  train_Biais_log  train_MAE_euros  train_RMSE_euros  train_MedAE_euros  train_R2_euros  train_Biais_euros  train_Sous_estimation_pct  train_Surestimation_pct  train_Erreur_abs_P90_euros  train_Erreur_abs_P95_euros  test_n  test_MAE_log  test_RMSE_log  test_MedAE_log  test_R2_log  test_Biais_log  test_MAE_euros  test_RMSE_euros  test_MedAE_euros  test_R2_euros  test_Biais_euros  test_Sous_estimation_pct  test_Surestimation_pct  test_Erreur_abs_P90_euros  test_Erreur_abs_P95_euros
+  pred_tab_log    42996       0.242064        0.339558         0.181064      0.799366         0.019217        48.644636        108.403405          22.602823        0.642636          -7.737438                  45.348405                54.651595                  105.169597                  163.905095   10749      0.237551       0.334621        0.176910     0.806611        0.027745       47.763465       103.660359         22.044740       0.676938         -6.124191                 44.376221               55.623779                 104.569530                 162.147414
+ pred_text_log    42996       0.349803        0.472656         0.270582      0.611254         0.078110        69.322325        138.205488          35.455810        0.419135           0.471216                  39.524607                60.475393                  150.966140                  227.081487   10749      0.352883       0.474471        0.275234     0.611183        0.085819       69.150270       134.454814         36.331726       0.456483          1.930024                 39.817657               60.182343                 149.890919                 229.073020
+pred_image_log    42996       0.466138        0.611373         0.366338      0.349588         0.006505        85.129813        159.767185          46.517079        0.223753         -23.342106                  47.467206                52.532794                  182.812915                  278.622663   10749      0.458502       0.602977        0.365049     0.372045        0.013298       83.523674       155.831220         46.363348       0.269921        -21.649945                 47.846311               52.153689                 178.321852                 270.575603
+
+Métriques des modèles de late fusion
+------------------------------------------------------------------------------------------
+            model  train_n  train_MAE_log  train_RMSE_log  train_MedAE_log  train_R2_log  train_Biais_log  train_MAE_euros  train_RMSE_euros  train_MedAE_euros  train_R2_euros  train_Biais_euros  train_Sous_estimation_pct  train_Surestimation_pct  train_Erreur_abs_P90_euros  train_Erreur_abs_P95_euros  test_n  test_MAE_log  test_RMSE_log  test_MedAE_log  test_R2_log  test_Biais_log  test_MAE_euros  test_RMSE_euros  test_MedAE_euros  test_R2_euros  test_Biais_euros  test_Sous_estimation_pct  test_Surestimation_pct  test_Erreur_abs_P90_euros  test_Erreur_abs_P95_euros
+linear_regression    42996       0.233895        0.331899         0.174041      0.808315     1.115491e-17        47.421253        109.776743          21.476563        0.633524         -12.673858                  47.176482                52.823518                   99.983898                  157.072120   10749      0.229662       0.326870        0.170464     0.815466        0.008660       46.429666       104.662008         21.002529       0.670664        -10.857127                 46.674109               53.325891                  98.065833                 157.704590
+         ridge_cv    42996       0.233895        0.331899         0.174044      0.808315    -3.173777e-16        47.421318        109.778291          21.475516        0.633514         -12.675601                  47.176482                52.823518                   99.983842                  157.070728   10749      0.229662       0.326871        0.170447     0.815465        0.008660       46.429760       104.663587         21.000128       0.670654        -10.858892                 46.674109               53.325891                  98.061552                 157.704612
+    elasticnet_cv    42996       0.233894        0.331899         0.174071      0.808315    -3.174604e-16        47.421442        109.781490          21.474201        0.633493         -12.679486                  47.178807                52.821193                   99.981510                  157.068918   10749      0.229663       0.326872        0.170419     0.815464        0.008660       46.429955       104.666919         20.995089       0.670633        -10.862864                 46.692716               53.307284                  98.051322                 157.708901
+ catboost_shallow    42996       0.232979        0.330605         0.173378      0.809807    -1.439207e-05        47.120638        108.418561          21.320060        0.642536         -12.076476                  47.248581                52.751419                   99.538816                  158.384408   10749      0.230181       0.327294        0.170766     0.814987        0.008516       46.655263       104.168115         21.223198       0.673765        -10.288634                 46.832263               53.167737                  98.659560                 160.943375
+      mean_simple    42996       0.283931        0.388056         0.219561      0.737962     3.461070e-02        55.736262        126.638149          26.902119        0.512299         -17.942439                  41.899246                58.100754                  109.128483                  182.491347   10749      0.282030       0.384768        0.217324     0.744304        0.042287       54.769054       121.861209         27.297458       0.553531        -16.233304                 41.464322               58.535678                 105.461382                 177.188531
+
+Meilleur modèle selon la MAE en euros sur test_final
+------------------------------------------------------------------------------------------
+linear_regression
+
+Segments du meilleur modèle
+------------------------------------------------------------------------------------------
+segment_price    n  price_mean  pred_mean        MAE       RMSE  Biais_moyen  Sous_estimation_pct
+         <100 3861   63.555815  73.180148  15.982061  26.072330     9.624333            32.815333
+      100-200 3805  145.202891 153.927751  30.687469  43.170526     8.724860            45.072273
+      200-400 2231  273.846706 262.724714  57.364723  74.879125   -11.121991            60.152398
+      400-800  656  521.460366 423.817731 139.003310 180.971085   -97.642635            77.591463
+         >800  196 1103.392857 602.402180 517.515594 614.604424  -500.990678            93.877551

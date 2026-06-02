@@ -1,0 +1,89 @@
+================================================================================
+ANALYSE DES ERREURS PAR SEGMENTS DE PRIX - TEST SET
+================================================================================
+
+Objectif :
+Ce rapport analyse les erreurs du modèle CatBoost baseline selon différentes gammes de prix réels. L'objectif est de vérifier si le modèle se comporte de manière homogène ou s'il est moins fiable sur les logements chers.
+
+Résultats par segment :
+--------------------------------------------------------------------------------
+
+Segment : < 100 €
+  Nombre d'annonces : 2901
+  Prix moyen réel : 63.59 €
+  Prix médian réel : 63.00 €
+  MAE : 17.26 €
+  RMSE : 26.16 €
+  MedAE : 11.76 €
+  R2 : -0.6878
+  MAPE : 28.70 %
+  Erreur moyenne : 11.31 €
+  Taux de sous-estimation : 29.64 %
+  Erreur absolue P90 : 37.94 €
+
+Segment : 100–200 €
+  Nombre d'annonces : 2780
+  Prix moyen réel : 143.86 €
+  Prix médian réel : 141.00 €
+  MAE : 30.51 €
+  RMSE : 41.83 €
+  MedAE : 22.96 €
+  R2 : -1.2486
+  MAPE : 21.46 %
+  Erreur moyenne : 8.23 €
+  Taux de sous-estimation : 44.42 %
+  Erreur absolue P90 : 65.05 €
+
+Segment : 200–400 €
+  Nombre d'annonces : 1764
+  Prix moyen réel : 272.07 €
+  Prix médian réel : 260.00 €
+  MAE : 60.10 €
+  RMSE : 78.37 €
+  MedAE : 47.67 €
+  R2 : -1.0351
+  MAPE : 21.95 %
+  Erreur moyenne : -17.78 €
+  Taux de sous-estimation : 62.59 %
+  Erreur absolue P90 : 126.71 €
+
+Segment : 400–800 €
+  Nombre d'annonces : 470
+  Prix moyen réel : 526.50 €
+  Prix médian réel : 500.00 €
+  MAE : 158.39 €
+  RMSE : 199.83 €
+  MedAE : 140.30 €
+  R2 : -2.5045
+  MAPE : 29.45 %
+  Erreur moyenne : -123.41 €
+  Taux de sous-estimation : 80.43 %
+  Erreur absolue P90 : 322.05 €
+
+Segment : > 800 €
+  Nombre d'annonces : 147
+  Prix moyen réel : 1103.47 €
+  Prix médian réel : 999.00 €
+  MAE : 567.47 €
+  RMSE : 663.05 €
+  MedAE : 501.59 €
+  R2 : -3.4185
+  MAPE : 50.45 %
+  Erreur moyenne : -557.75 €
+  Taux de sous-estimation : 97.28 %
+  Erreur absolue P90 : 1043.17 €
+
+================================================================================
+LECTURE À FAIRE
+================================================================================
+
+Si la MAE et la RMSE augmentent fortement dans les segments chers, cela confirme que le modèle prédit moins bien les logements haut de gamme.
+Si l'erreur moyenne est négative dans les segments chers, cela signifie que le modèle sous-estime ces logements.
+Si le taux de sous-estimation dépasse largement 50 %, cela signifie que le modèle prédit trop souvent un prix inférieur au prix réel dans ce segment.
+
+Pistes d'amélioration à tester ensuite :
+- pondération plus forte des logements chers pendant l'entraînement ;
+- Quantile Loss avec alpha > 0.5 pour limiter la sous-estimation ;
+- calibration des prédictions sur validation ;
+- ajout de variables textuelles ou visuelles pour mieux capter le standing ;
+- modèle spécialisé pour logements premium, mais sans utiliser le vrai prix au moment de la prédiction.

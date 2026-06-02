@@ -1,9 +1,7 @@
 import pandas as pd
 
-
 ''' Fichier qui vérifie les annonces avec un prix supérieur à 2000 euros dans le fichier 
-    listings_sans_vides_constantes.csv
-    et qui sauvegarde ces annonces dans un fichier Excel pour les supprimer ensuite du 
+    listings_sans_vides_constantes.csv et qui sauvegarde ces annonces dans un fichier Excel pour les supprimer ensuite du 
     fichier final listings_avec_annonces_supprimees.csv ''' 
 
 

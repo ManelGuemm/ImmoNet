@@ -1,0 +1,35 @@
+Résumé CV - fusion tabulaire + embeddings texte
+==========================================================================================
+
+La validation croisée est faite uniquement sur le train.
+Le test final n'est jamais utilisé pendant la CV.
+Les poids sont calculés uniquement sur le train de chaque fold.
+Validation pondérée : False
+Nombre de folds : 5
+
+Métriques OOF globales - price_euros
+------------------------------------------------------------------------------------------
+n                             : 42996.000000
+MAE                           : 49.042910
+RMSE                          : 111.700777
+MedAE                         : 22.372404
+R2                            : 0.622317
+MAPE_pct                      : 25.207951
+SMAPE_pct                     : 23.728312
+Mean_Error                    : -10.661237
+Underestimation_Rate_pct      : 46.122895
+Overestimation_Rate_pct       : 53.877105
+Abs_Error_P75                 : 50.514531
+Abs_Error_P90                 : 104.143717
+Abs_Error_P95                 : 164.467791
+
+Nombre d'arbres par fold
+------------------------------------------------------------------------------------------
+  fold  best_iteration  tree_count                                                                                                                        model_path
+fold_1            7998        7999 /workspace/airbnb_text_e5_lora_stacking/outputs_fusion_embeddings_only_kfold_manual_aggressive_c05/modeles/catboost_cv_fold_1.cbm
+fold_2            7999        8000 /workspace/airbnb_text_e5_lora_stacking/outputs_fusion_embeddings_only_kfold_manual_aggressive_c05/modeles/catboost_cv_fold_2.cbm
+fold_3            7999        8000 /workspace/airbnb_text_e5_lora_stacking/outputs_fusion_embeddings_only_kfold_manual_aggressive_c05/modeles/catboost_cv_fold_3.cbm
+fold_4            7999        8000 /workspace/airbnb_text_e5_lora_stacking/outputs_fusion_embeddings_only_kfold_manual_aggressive_c05/modeles/catboost_cv_fold_4.cbm
+fold_5            7999        8000 /workspace/airbnb_text_e5_lora_stacking/outputs_fusion_embeddings_only_kfold_manual_aggressive_c05/modeles/catboost_cv_fold_5.cbm
+
+Nombre d'arbres retenu pour le modèle final : 8000

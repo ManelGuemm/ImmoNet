@@ -10,3 +10,15 @@
 *.jpg filter=lfs diff=lfs merge=lfs -text
 *.jpeg filter=lfs diff=lfs merge=lfs -text
 *.json filter=lfs diff=lfs merge=lfs -text
+/Tabulaire/Comparasion_différentsmodeles/05_models/sklearn_models.7z filter=lfs diff=lfs merge=lfs -text
+/Textuelles/outputs_fusion_embeddings_only_kfold_manual_aggressive_c05/merged_data/merged_test_tab_embeddings.parquet filter=lfs diff=lfs merge=lfs -text
+/Textuelles/outputs_fusion_embeddings_only_kfold_manual_aggressive_c05/merged_data/merged_train_tab_embeddings.parquet filter=lfs diff=lfs merge=lfs -text
+/Textuelles/outputs_fusion_manual_aggressive_c05/merged_data/merged_test_tab_text.parquet filter=lfs diff=lfs merge=lfs -text
+/Textuelles/outputs_fusion_manual_aggressive_c05/merged_data/merged_train_tab_text.parquet filter=lfs diff=lfs merge=lfs -text
+/Textuelles/outputs_text_e5_lora/airbnb_text_features_all_e5_lora.parquet filter=lfs diff=lfs merge=lfs -text
+/Textuelles/outputs_text_e5_lora/airbnb_text_features_test_e5_lora.parquet filter=lfs diff=lfs merge=lfs -text
+/Textuelles/outputs_text_e5_lora/airbnb_text_features_train_e5_lora.parquet filter=lfs diff=lfs merge=lfs -text
+/Textuelles/outputs_text_e5_lora/oof_embeddings_train.npy filter=lfs diff=lfs merge=lfs -text
+/Textuelles/outputs_text_e5_lora/test_embeddings.npy filter=lfs diff=lfs merge=lfs -text
+/Visuelle/Rapport_Catboost_Tabulaire_Visuelle/efficientnet_b0_embeddings.npy filter=lfs diff=lfs merge=lfs -text
+/Visuelle/Resultat_extraction_embeddings_Effecient/Résultats_Extraction_Embedding_Visuels/efficientnet_b0_embeddings.npy filter=lfs diff=lfs merge=lfs -text

@@ -1,0 +1,47 @@
+Validation croisée 5-fold CatBoost baseline
+======================================================================
+
+Fichier d'entrée : C:\Users\manel\OneDrive\Documents\ImmoNet\ImmoNet\Tabulaire\Donnees_Tabulaires\airbnb_tabulaire_final_catboost_rates_corriges.csv
+Nombre de lignes : 53745
+Nombre de variables : 64
+Variables catégorielles : ['host_response_time_clean', 'room_type_clean', 'neighbourhood_cleansed_clean', 'property_type_clean']
+
+Métriques OOF globales - log_price
+----------------------------------------------------------------------
+n                             : 53745.000000
+MAE                           : 0.246705
+RMSE                          : 0.347634
+MedAE                         : 0.186186
+R2                            : 0.790024
+MAPE_pct                      : 5.048353
+SMAPE_pct                     : 5.037229
+Mean_Error                    : 0.000307
+Underestimation_Rate_pct      : 47.049958
+Overestimation_Rate_pct       : 52.950042
+Abs_Error_P75                 : 0.331661
+Abs_Error_P90                 : 0.510921
+Abs_Error_P95                 : 0.660312
+
+Métriques OOF globales - price_euros
+----------------------------------------------------------------------
+n                             : 53745.000000
+MAE                           : 49.936451
+RMSE                          : 114.446108
+MedAE                         : 22.757106
+R2                            : 0.602599
+MAPE_pct                      : 25.303967
+SMAPE_pct                     : 24.151276
+Mean_Error                    : -14.345485
+Underestimation_Rate_pct      : 47.049958
+Overestimation_Rate_pct       : 52.950042
+Abs_Error_P75                 : 50.858525
+Abs_Error_P90                 : 104.393727
+Abs_Error_P95                 : 166.347913
+
+Segments de prix - OOF global
+----------------------------------------------------------------------
+  < 100 € | n=19288 | MAE=17.04€ | RMSE=26.22€ | Biais=10.69€ | Sous-estimation=31.33%
+100-200 € | n=18595 | MAE=31.74€ | RMSE=45.44€ | Biais=8.76€ | Sous-estimation=44.62%
+200-400 € | n=11645 | MAE=60.09€ | RMSE=78.51€ | Biais=-17.61€ | Sous-estimation=63.11%
+400-800 € | n=3270 | MAE=158.57€ | RMSE=202.32€ | Biais=-122.64€ | Sous-estimation=82.45%
+  > 800 € | n= 947 | MAE=577.18€ | RMSE=686.77€ | Biais=-563.86€ | Sous-estimation=95.14%

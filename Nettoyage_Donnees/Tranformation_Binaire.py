@@ -1,6 +1,5 @@
 import pandas as pd
 
-
 ''' Fichier qui convertit les % en nombres et les booléens en 0/1 dans le fichier 
     listings_dates_converties.csv '''
 

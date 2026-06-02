@@ -1,0 +1,4 @@
+host_response_time_clean
+room_type_clean
+neighbourhood_cleansed_clean
+property_type_clean

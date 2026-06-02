@@ -1,0 +1,84 @@
+Résumé final - CatBoost tabulaire + textuel + visuel PCA 256
+====================================================================================================
+
+Candidat retenu
+----------------------------------------------------------------------------------------------------
+manual_aggressive__C05_premium_oriented + E5-LoRA textuel + EfficientNet-B0 PCA 256
+
+Protocole
+----------------------------------------------------------------------------------------------------
+Le split final train_dev/test_final provient de split_listing_ids.csv.
+La validation croisée 5-fold est faite uniquement sur train_dev.
+Le test final n'est jamais utilisé pendant la CV.
+Les embeddings visuels viennent d'EfficientNet-B0, dimension 1280.
+Une PCA réduit les embeddings visuels à 256 composantes.
+Pendant la CV, la PCA visuelle est apprise uniquement sur le train de chaque fold.
+Pour le modèle final, la PCA visuelle est apprise uniquement sur train_dev puis appliquée à test_final.
+Les features textuelles viennent des sorties E5-LoRA déjà calculées et alignées par listing_id_clean.
+Les embeddings textuels correspondant aux annonces supprimées à cause des images non lisibles ne sont pas utilisés, car l'alignement se fait par intersection des IDs.
+
+Données utilisées
+----------------------------------------------------------------------------------------------------
+Train_dev : 42976
+Test_final : 10745
+Variables tabulaires : 75
+Variables textuelles : 104
+Composantes visuelles PCA : 256
+Variance expliquée PCA visuelle finale : 0.795503
+
+Configuration CatBoost
+----------------------------------------------------------------------------------------------------
+iterations max CV : 8000
+iterations final : 7997
+learning_rate : 0.015
+depth : 7
+l2_leaf_reg : 8.0
+random_strength : 1.0
+bagging_temperature : 0.6
+rsm : 0.95
+early_stopping_rounds : 300
+task_type : CPU
+modèle final : /workspace/airbnb_project/Rapport_Catboost_Tabulaire_Textuelle_Visuelle_PCA256/modeles/catboost_final_tab_text_vis_pca256_manual_aggressive_c05.cbm
+PCA visuelle finale : /workspace/airbnb_project/Rapport_Catboost_Tabulaire_Textuelle_Visuelle_PCA256/pca/pca_efficientnet_b0_256_train_dev.joblib
+
+Métriques CV OOF - price_euros
+----------------------------------------------------------------------------------------------------
+n                             : 42976.000000
+MAE                           : 49.593247
+RMSE                          : 113.231441
+MedAE                         : 22.501096
+R2                            : 0.612027
+MAPE_pct                      : 25.347877
+SMAPE_pct                     : 23.944221
+Mean_Error                    : -11.743936
+Underestimation_Rate_pct      : 46.144360
+Overestimation_Rate_pct       : 53.855640
+Abs_Error_P75                 : 50.602142
+Abs_Error_P90                 : 105.265175
+Abs_Error_P95                 : 166.794511
+
+Métriques test final - log_price
+----------------------------------------------------------------------------------------------------
+MAE log : 0.2445
+RMSE log : 0.3409
+R2 log : 0.7967
+
+Métriques test final - price_euros
+----------------------------------------------------------------------------------------------------
+MAE : 49.3076 €
+RMSE : 110.9255 €
+R2 : 0.6233
+Biais moyen : -12.9077 €
+
+Segments test final
+----------------------------------------------------------------------------------------------------
+  segment    n        MAE       RMSE      MedAE  Mean_Error  Underestimation_Rate_pct  Abs_Error_P90  Abs_Error_P95
+  < 100 € 3845  16.650133  26.852610  11.154732    9.494549                 34.772432      35.595637      50.687254
+100-200 € 3717  32.241519  44.340165  24.359100    7.937330                 45.816519      69.231705      92.226183
+200-400 € 2356  61.205389  79.975845  48.947390  -12.523079                 61.120543     127.440811     159.648420
+400-800 €  649 153.366145 193.697779 127.508898 -115.900469                 81.047766     309.855739     387.061744
+  > 800 €  178 574.235822 681.670397 512.109540 -561.679400                 95.505618     975.076354    1254.650478
+
+Lecture critique
+----------------------------------------------------------------------------------------------------
+Cette expérience teste la fusion complète entre les informations tabulaires, textuelles et visuelles. Elle doit être comparée au modèle tabulaire seul, au modèle tabulaire + textuel, et au modèle tabulaire + visuel. Si le gain est faible ou négatif, cela peut indiquer que l'ajout de modalités augmente la complexité plus vite qu'il n'apporte de signal généralisable. Si le gain apparaît surtout sur certains segments, l'analyse par gamme de prix devient centrale.

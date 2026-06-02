@@ -1,0 +1,108 @@
+Résumé final - CatBoost tabulaire + visuel PCA 256
+====================================================================================================
+
+Candidat retenu
+----------------------------------------------------------------------------------------------------
+manual_aggressive__C05_premium_oriented + EfficientNet-B0 PCA 256
+
+Protocole
+----------------------------------------------------------------------------------------------------
+Le split final train_dev/test_final provient de split_listing_ids.csv.
+La validation croisée 5-fold est faite uniquement sur train_dev.
+Le test final n'est jamais utilisé pendant la CV.
+Les embeddings visuels viennent d'EfficientNet-B0 et ont une dimension initiale de 1280.
+Une PCA réduit ces embeddings à 256 composantes.
+Pendant la CV, la PCA est apprise uniquement sur le train de chaque fold.
+Pour le modèle final, la PCA est apprise uniquement sur train_dev puis appliquée à test_final.
+Le modèle final est entraîné sur train_dev, puis évalué une seule fois sur test_final.
+
+Données utilisées
+----------------------------------------------------------------------------------------------------
+Train_dev : 42976
+Test_final : 10745
+Variables tabulaires : 75
+Composantes visuelles PCA : 256
+Variance expliquée PCA finale : 0.795503
+
+Colonnes retirées importantes
+----------------------------------------------------------------------------------------------------
+id_clean
+price
+log_price
+nights_range_is_incoherent
+has_reviews
+nb_avis_textuels_bert
+bert_stars_moyen
+name
+description
+host_about
+amenities
+txt_e5_*
+img_emb_*
+
+Configuration CatBoost
+----------------------------------------------------------------------------------------------------
+iterations max CV : 8000
+iterations final : 7989
+learning_rate : 0.015
+depth : 7
+l2_leaf_reg : 8.0
+random_strength : 1.0
+bagging_temperature : 0.6
+rsm : 0.95
+early_stopping_rounds : 300
+task_type : CPU
+modèle final : /workspace/airbnb_project/Rapport_Catboost_Tabulaire_Visuelle/modeles/catboost_final_tabulaire_visuel_pca256_manual_aggressive_c05.cbm
+PCA finale : /workspace/airbnb_project/Rapport_Catboost_Tabulaire_Visuelle/pca/pca_efficientnet_b0_256_train_dev.joblib
+
+Pondération manual_aggressive
+----------------------------------------------------------------------------------------------------
+< 100 € : 1.0
+100-200 € : 1.0
+200-400 € : 1.15
+400-800 € : 2.0
+> 800 € : 3.5
+clip_min : 0.5
+clip_max : 6.0
+
+Métriques CV OOF - price_euros
+----------------------------------------------------------------------------------------------------
+n                             : 42976.000000
+MAE                           : 50.649549
+RMSE                          : 113.816144
+MedAE                         : 23.338305
+R2                            : 0.608010
+MAPE_pct                      : 26.197456
+SMAPE_pct                     : 24.581559
+Mean_Error                    : -11.279022
+Underestimation_Rate_pct      : 45.872115
+Overestimation_Rate_pct       : 54.127885
+Abs_Error_P75                 : 52.543402
+Abs_Error_P90                 : 107.567367
+Abs_Error_P95                 : 169.717673
+
+Métriques test final - log_price
+----------------------------------------------------------------------------------------------------
+MAE log : 0.2498
+RMSE log : 0.3468
+R2 log : 0.7895
+
+Métriques test final - price_euros
+----------------------------------------------------------------------------------------------------
+MAE : 49.8505 €
+RMSE : 110.2341 €
+R2 : 0.6279
+Biais moyen : -11.2070 €
+
+Segments test final
+----------------------------------------------------------------------------------------------------
+  segment    n        MAE       RMSE      MedAE  Mean_Error  Underestimation_Rate_pct  Abs_Error_P90  Abs_Error_P95
+  < 100 € 3845  17.595637  28.753711  11.519902   10.825845                 32.665800      38.133663      52.047108
+100-200 € 3717  33.338395  45.953084  25.095152   10.135862                 43.798762      72.151911      93.686554
+200-400 € 2356  61.651232  80.315802  49.240174  -11.580118                 61.247878     130.063419     163.200163
+400-800 €  649 152.912577 193.740145 131.474270 -116.285564                 79.506934     304.004291     396.338114
+  > 800 €  178 559.430309 670.327647 471.138635 -544.759067                 94.382022     977.468581    1199.393768
+
+Lecture critique
+----------------------------------------------------------------------------------------------------
+Cette expérience mesure l'apport de la modalité visuelle seule, ajoutée au socle tabulaire et sentiment. Si les métriques test final s'améliorent par rapport au tabulaire, cela indique que l'image apporte un signal complémentaire. Si l'amélioration est faible ou absente, cela peut signifier que les informations visuelles sont déjà partiellement capturées par les variables tabulaires, ou que l'embedding générique EfficientNet-B0 n'est pas suffisamment spécialisé pour le prix Airbnb.

@@ -1,0 +1,45 @@
+Résumé CV - CatBoost tabulaire + textuel + visuel PCA 256
+==========================================================================================
+
+La validation croisée est faite uniquement sur train_dev.
+Le test final n'est jamais utilisé pendant la CV.
+La PCA visuelle est réapprise dans chaque fold sur le train du fold uniquement.
+Les features textuelles proviennent des sorties E5-LoRA déjà calculées.
+Nombre de folds : 5
+Nombre de composantes PCA visuelles : 256
+
+Métriques OOF globales - price_euros
+------------------------------------------------------------------------------------------
+n                             : 42976.000000
+MAE                           : 49.593247
+RMSE                          : 113.231441
+MedAE                         : 22.501096
+R2                            : 0.612027
+MAPE_pct                      : 25.347877
+SMAPE_pct                     : 23.944221
+Mean_Error                    : -11.743936
+Underestimation_Rate_pct      : 46.144360
+Overestimation_Rate_pct       : 53.855640
+Abs_Error_P75                 : 50.602142
+Abs_Error_P90                 : 105.265175
+Abs_Error_P95                 : 166.794511
+
+Variance expliquée PCA visuelle par fold
+------------------------------------------------------------------------------------------
+  fold  n_components  explained_variance_ratio_sum
+fold_1           256                      0.795735
+fold_2           256                      0.795803
+fold_3           256                      0.796236
+fold_4           256                      0.796196
+fold_5           256                      0.796198
+
+Nombre d'arbres par fold
+------------------------------------------------------------------------------------------
+  fold  best_iteration  tree_count                                                                                                                        model_path
+fold_1            7996        7997 /workspace/airbnb_project/Rapport_Catboost_Tabulaire_Textuelle_Visuelle_PCA256/modeles/catboost_tab_text_vis_pca256_cv_fold_1.cbm
+fold_2            7999        8000 /workspace/airbnb_project/Rapport_Catboost_Tabulaire_Textuelle_Visuelle_PCA256/modeles/catboost_tab_text_vis_pca256_cv_fold_2.cbm
+fold_3            7999        8000 /workspace/airbnb_project/Rapport_Catboost_Tabulaire_Textuelle_Visuelle_PCA256/modeles/catboost_tab_text_vis_pca256_cv_fold_3.cbm
+fold_4            7985        7986 /workspace/airbnb_project/Rapport_Catboost_Tabulaire_Textuelle_Visuelle_PCA256/modeles/catboost_tab_text_vis_pca256_cv_fold_4.cbm
+fold_5            7983        7984 /workspace/airbnb_project/Rapport_Catboost_Tabulaire_Textuelle_Visuelle_PCA256/modeles/catboost_tab_text_vis_pca256_cv_fold_5.cbm
+
+Nombre d'arbres retenu pour le modèle final : 7997

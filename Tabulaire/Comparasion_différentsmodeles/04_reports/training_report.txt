@@ -1,0 +1,60 @@
+
+================================================================================
+RAPPORT FINAL - PIPELINE COMPLET AIRBNB
+================================================================================
+Date : 2026-05-20 04:16:49
+
+DONNÉES
+- Fichier : /workspace/airbnb_tabulaire_fusionné_sentiment.csv
+- Outliers : conservés, aucune suppression automatique des logements chers
+- Pondération : manual_aggressive appliquée à tous les modèles
+- Cible d'entraînement : log_price
+- Évaluation finale : prix réel après reconversion
+- Reconversions testées : naïve expm1 et smearing estimate de Duan
+
+COLONNES RETIRÉES DES FEATURES
+['price', 'log_price', 'id_clean', 'nights_range_is_incoherent', 'has_reviews', 'nb_avis_textuels_bert', 'bert_stars_moyen']
+
+MODÈLES COMPARÉS
+- CatBoost_weighted_all_features : catégories natives, pondération manual_aggressive, toutes variables retenues après nettoyage
+- CatBoost_weighted_SHAP_top30 : pondération manual_aggressive + sélection SHAP top 30 faite sans utiliser le test
+- CatBoost_weighted_SHAP_top50 : pondération manual_aggressive + sélection SHAP top 50 faite sans utiliser le test
+- Ridge, Lasso, ElasticNet
+- RandomForest, GradientBoosting, HistGradientBoosting
+
+POINTS MÉTHODOLOGIQUES CORRIGÉS
+- Split train/test avant transformations apprises
+- Pondération manual_aggressive appliquée pendant l’apprentissage
+- Sélection par score composite premium-oriented en validation croisée
+- Imputation numérique par médiane dans les pipelines
+- Imputation catégorielle par mode / missing selon modèle
+- OneHotEncoder seulement pour les modèles scikit-learn
+- CatBoost avec variables catégorielles natives
+- SelectKBest(mutual_info_regression) intégré dans le Pipeline scikit-learn
+- Sélection de variables refaite dans chaque fold de validation croisée
+- Géographie enrichie : geo_cluster + neighbourhood_popularity
+- Analyse par segments de prix
+- SHAP CatBoost sauvegardé
+
+MEILLEUR MODÈLE SELON LA MAE TEST CHOISIE
+- Modèle : CatBoost_weighted_all_features
+- Retransformation retenue : naive
+- MAE : 49.1182
+- MAE naïve : 49.1182
+- RMSE naïve : 105.8918
+- R² naïf : 0.6640
+- MAE smearing : 49.3473
+- RMSE smearing : 105.7699
+- R² smearing : 0.6647
+
+FICHIERS IMPORTANTS
+- 00_global/model_comparison_results.csv
+- 00_global/segment_metrics_by_model.csv
+- 00_global/sklearn_cv_summary.csv
+- 05_models/catboost_weighted_all_features/catboost_param_search_cv.csv
+- 05_models/catboost_all_features/*shap*.csv
+- 05_models/catboost_shap_top30/*selected*.csv
+- 05_models/catboost_shap_top50/*selected*.csv
+- 02_plots/*.png
+- 03_predictions/best_model_predictions.csv
+================================================================================

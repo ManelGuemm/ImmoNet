@@ -1,35 +1,8 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-
-"""
-Ce script sert à vérifier la qualité de la variable cible `price`
-dans le fichier listings après la suppression des lignes sans prix.
-
-Ce que fait le script :
-1. charge le fichier CSV ou Excel ;
-2. vérifie que la colonne `price` existe ;
-3. s'assure que `price` est bien exploitable en numérique ;
-4. compte le nombre de prix égaux à 0 ;
-5. compte le nombre de prix négatifs ;
-6. repère les valeurs extrêmes avec la méthode de l'IQR ;
-7. affiche des statistiques descriptives sur la distribution du prix ;
-8. trace un histogramme et un boxplot pour visualiser la distribution.
-
-L'objectif est de confirmer que la variable cible est cohérente
-avant de poursuivre le nettoyage et la modélisation.
-"""
-
-
-# =========================
-# 1. Chemin du fichier
-# =========================
 FILE_PATH = "listings_sans_vides_constantes.csv"   # Remplacer par ton vrai fichier : .csv ou .xlsx
 
-
-# =========================
-# 2. Charger le fichier
-# =========================
 if FILE_PATH.endswith(".csv"):
     df = pd.read_csv(FILE_PATH)
 elif FILE_PATH.endswith(".xlsx"):
@@ -37,23 +10,15 @@ elif FILE_PATH.endswith(".xlsx"):
 else:
     raise ValueError("Format non supporté. Utilise un fichier .csv ou .xlsx")
 
-
-# =========================
 # 3. Vérifier la présence de la colonne price
-# =========================
 if "price" not in df.columns:
     raise ValueError("La colonne 'price' est introuvable dans le fichier.")
 
-
-# =========================
 # 4. S'assurer que price est numérique
-# =========================
 df["price"] = pd.to_numeric(df["price"], errors="coerce")
 
-
-# =========================
 # 5. Vérifications de base
-# =========================
+
 nb_missing = df["price"].isna().sum()
 nb_zero = (df["price"] == 0).sum()
 nb_negative = (df["price"] < 0).sum()
@@ -64,17 +29,11 @@ print(f"Nombre de valeurs manquantes dans price : {nb_missing}")
 print(f"Nombre de prix égaux à 0 : {nb_zero}")
 print(f"Nombre de prix négatifs : {nb_negative}")
 
-
-# =========================
 # 6. Statistiques descriptives
-# =========================
 print("\n===== Statistiques descriptives de price =====")
 print(df["price"].describe())
 
-
-# =========================
 # 7. Détection des valeurs extrêmes avec l'IQR
-# =========================
 Q1 = df["price"].quantile(0.25)
 Q3 = df["price"].quantile(0.75)
 IQR = Q3 - Q1
@@ -95,10 +54,7 @@ print(f"Nombre de prix extrêmes détectés : {len(prix_extremes)}")
 print("\nExemples de prix extrêmes :")
 print(prix_extremes[["price"]].sort_values(by="price", ascending=False).head(20))
 
-
-# =========================
 # 8. Visualisation de la distribution
-# =========================
 plt.figure(figsize=(8, 5))
 plt.hist(df["price"].dropna(), bins=50, edgecolor="black")
 plt.title("Distribution de la variable price")
@@ -117,9 +73,7 @@ plt.savefig("boxplot_price.png", dpi=300)
 plt.close()
 
 print("Les graphiques ont été enregistrés : histogramme_price.png et boxplot_price.png")
-# =========================
 # 9. Export des résultats dans un fichier Excel
-# =========================
 
 output_file = "verification_price_resultats.xlsx"
 

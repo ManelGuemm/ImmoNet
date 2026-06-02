@@ -1,0 +1,40 @@
+Résumé final - CatBoost pondéré avec tuning
+==========================================================================================
+
+Protocole
+------------------------------------------------------------------------------------------
+Le test final a été isolé avant le tuning.
+Le choix des hyperparamètres repose uniquement sur la CV du dev set.
+Le test final est utilisé une seule fois à la fin.
+Les poids sont calculés uniquement sur les folds d'entraînement.
+
+Meilleur candidat
+------------------------------------------------------------------------------------------
+Candidat : manual_aggressive__C05_premium_oriented
+Pondération : manual_aggressive / manual_price_segments
+Hyperparamètres : C05_premium_oriented
+Description : Plus flexible, orienté correction des logements chers.
+Best iteration finale : 7992
+Tree count finale : 7993
+
+Métriques test final - price_euros
+------------------------------------------------------------------------------------------
+MAE : 47.7007 €
+RMSE : 102.7046 €
+R2 : 0.6829
+Biais moyen : -7.5390 €
+
+Segments test final
+------------------------------------------------------------------------------------------
+  segment    n        MAE       RMSE      MedAE  Mean_Error  Underestimation_Rate_pct  Abs_Error_P90  Abs_Error_P95
+  < 100 € 2899  17.097331  27.615060  10.704868   10.930980                 32.252501      38.032749      52.564085
+100-200 € 2780  32.393540  46.433313  23.977137   10.980148                 43.705036      69.969789      92.377612
+200-400 € 1747  59.330773  77.687544  47.866108   -6.533784                 58.672009     124.246815     155.412445
+400-800 €  487 142.364340 184.047506 122.303498  -87.650938                 72.484600     303.832213     382.791297
+  > 800 €  149 482.960724 578.096830 456.129659 -462.369151                 91.275168     867.351971    1065.181847
+
+Lecture critique
+------------------------------------------------------------------------------------------
+Le meilleur modèle n'est pas forcément celui qui minimise seulement la MAE globale.
+Il faut regarder la MAE globale, le RMSE, le biais moyen et les segments chers.
+Une amélioration des logements chers est utile seulement si elle ne dégrade pas trop les petits prix.

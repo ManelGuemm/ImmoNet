@@ -5,11 +5,6 @@ from urllib.parse import urlparse
 import mimetypes
 import re
 
-
-# =======================================================================================================
-# Telecharger les images depuis les URLs dans un CSV et enregistrer les résultats dans un Excel de suivi
-# =======================================================================================================
-
 # Configuration
 FICHIER_CSV = "Donnees/listings_price_valide.csv"
 COLONNE_ID = "id"
@@ -20,11 +15,9 @@ FICHIER_EXCEL = Path("Fichiers_Rapports") / "Rapport_telechargement_images_londo
 
 TIMEOUT = 20
 
-# Création du dossier pour les images et le fichier Excel de suivi si ils n'existent pas déjà
 DOSSIER_IMAGES.mkdir(parents=True, exist_ok=True)
 FICHIER_EXCEL.parent.mkdir(parents=True, exist_ok=True)
 
-# Fonctions utilitaires pour le téléchargement et le nommage des images 
 def nettoyer_nom(valeur):
     """Nettoie un texte pour l'utiliser dans un nom de fichier."""
     valeur = str(valeur).strip()
@@ -129,7 +122,6 @@ def telecharger_image(id_annonce, url):
         return resultat
 
 
-# Chargement du fichier CSV et vérification des colonnes nécessaires
 print("Chargement du fichier CSV...")
 df = pd.read_csv(FICHIER_CSV, sep=None, engine="python", encoding="utf-8-sig")
 df.columns = df.columns.str.strip()
@@ -141,11 +133,9 @@ if COLONNE_URL not in df.columns:
     raise ValueError(f"La colonne '{COLONNE_URL}' est introuvable dans le fichier.")
 
 
-# On garde l'id comme texte pour éviter les problèmes d'affichage
 df[COLONNE_ID] = df[COLONNE_ID].astype(str).str.strip()
 
 
-# Téléchargement des images et collecte des résultats
 resultats = []
 
 total = len(df)
@@ -162,7 +152,6 @@ for i, row in enumerate(df[[COLONNE_ID, COLONNE_URL]].itertuples(index=False), s
 print("\nTéléchargement terminé.")
 
 
-# Enregistrement des résultats dans un fichier Excel
 df_resultats = pd.DataFrame(resultats)
 df_erreurs = df_resultats[df_resultats["statut"] == "error"].copy()
 
@@ -170,7 +159,6 @@ with pd.ExcelWriter(FICHIER_EXCEL, engine="openpyxl") as writer:
     df_resultats.to_excel(writer, sheet_name="suivi_images", index=False)
     df_erreurs.to_excel(writer, sheet_name="images_erreur", index=False)
 
-# Affichage d'un résumé des résultats
 nb_ok = (df_resultats["statut"] == "ok").sum()
 nb_error = (df_resultats["statut"] == "error").sum()
 

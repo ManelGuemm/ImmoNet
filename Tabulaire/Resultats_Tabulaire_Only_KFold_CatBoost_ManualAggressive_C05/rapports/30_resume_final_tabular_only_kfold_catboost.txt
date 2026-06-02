@@ -1,0 +1,95 @@
+Résumé final - CatBoost tabulaire seul + K-fold CV
+====================================================================================================
+
+Candidat retenu
+----------------------------------------------------------------------------------------------------
+manual_aggressive__C05_premium_oriented
+
+Protocole
+----------------------------------------------------------------------------------------------------
+Un split final train_dev/test_final est créé à partir du fichier tabulaire.
+La validation croisée 5-fold est faite uniquement sur train_dev.
+Le test final n'est jamais utilisé pendant la CV.
+Les poids manual_aggressive sont calculés seulement sur le train de chaque fold.
+La validation du fold reste non pondérée, sauf si weight_validation_pool=True.
+Le nombre d'arbres du modèle final est la médiane des tree_count obtenus en CV.
+Le modèle final est entraîné sur train_dev, puis évalué une seule fois sur test_final.
+Les colonnes textuelles, embeddings, images et prédictions texte sont exclues si elles existent.
+
+Colonnes retirées importantes
+----------------------------------------------------------------------------------------------------
+id_clean
+price
+log_price
+nights_range_is_incoherent
+has_reviews
+nb_avis_textuels_bert
+bert_stars_moyen
+text_pred_final
+txt_e5_*
+
+Configuration CatBoost
+----------------------------------------------------------------------------------------------------
+iterations max CV : 8000
+iterations final : 8000
+learning_rate : 0.015
+depth : 7
+l2_leaf_reg : 8.0
+random_strength : 1.0
+bagging_temperature : 0.6
+rsm : 0.95
+early_stopping_rounds : 300
+task_type : CPU
+modèle final : /workspace/airbnb_text_e5_lora_stacking/Resultats_Tabulaire_Only_KFold_CatBoost_ManualAggressive_C05/modeles/catboost_final_tabular_only_kfold_manual_aggressive_c05.cbm
+
+Pondération manual_aggressive
+----------------------------------------------------------------------------------------------------
+< 100 € : 1.0
+100-200 € : 1.0
+200-400 € : 1.15
+400-800 € : 2.0
+> 800 € : 3.5
+clip_min : 0.5
+clip_max : 6.0
+
+Métriques CV OOF - price_euros
+----------------------------------------------------------------------------------------------------
+n                             : 42996.000000
+MAE                           : 48.644636
+RMSE                          : 108.403405
+MedAE                         : 22.602823
+R2                            : 0.642636
+MAPE_pct                      : 25.588438
+SMAPE_pct                     : 23.740076
+Mean_Error                    : -7.737438
+Underestimation_Rate_pct      : 45.348405
+Overestimation_Rate_pct       : 54.651595
+Abs_Error_P75                 : 51.366460
+Abs_Error_P90                 : 105.169597
+Abs_Error_P95                 : 163.905095
+
+Métriques test final - log_price
+----------------------------------------------------------------------------------------------------
+MAE log : 0.2376
+RMSE log : 0.3346
+R2 log : 0.8066
+
+Métriques test final - price_euros
+----------------------------------------------------------------------------------------------------
+MAE : 47.7635 €
+RMSE : 103.6604 €
+R2 : 0.6769
+Biais moyen : -6.1242 €
+
+Segments test final
+----------------------------------------------------------------------------------------------------
+  segment    n        MAE       RMSE      MedAE  Mean_Error  Underestimation_Rate_pct  Abs_Error_P90  Abs_Error_P95
+  < 100 € 3861  17.313864  29.673449  10.719716   11.370701                 31.131831      38.305521      54.310176
+100-200 € 3711  32.672422  46.735756  23.807410   12.159347                 42.683913      69.892450      91.810140
+200-400 € 2325  60.030007  79.876986  47.014651   -5.074171                 57.075269     128.653086     161.080974
+400-800 €  656 136.783660 179.848075 107.877956  -81.594102                 73.170732     290.637309     371.695739
+  > 800 €  196 489.864564 588.776419 440.576855 -456.792684                 90.306122     887.385793    1060.679670
+
+Lecture critique
+----------------------------------------------------------------------------------------------------
+Cette version sert de référence tabulaire propre. Elle doit être comparée à la fusion tabulaire + embeddings texte avec le même type de protocole. Si la fusion texte améliore peu ou dégrade le test final, il faudra garder le tabulaire seul comme modèle principal. Si la fusion améliore surtout les segments chers sans dégrader fortement les prix standards, elle peut être justifiée.

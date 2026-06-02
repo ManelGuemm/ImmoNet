@@ -1,8 +1,5 @@
 import pandas as pd
 
-''' Fichier qui vérifie les doublons dans la colonne "id" du fichier listings_price_valide'''
-
-
 fichier_csv = "Donnees/listings_price_valide.csv"
 # fichier_csv = "Donnees/listings.csv"
 

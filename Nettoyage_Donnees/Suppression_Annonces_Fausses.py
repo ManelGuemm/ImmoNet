@@ -1,8 +1,6 @@
 # Fichier qui supprime les annonces fausses du fichier listings_sans_vides_constantes.csv
 # On se base sur le fichier annonces_price_sup_2000.xlsx qui contient les annonces avec 
 # un prix supérieur à 2000 euros
-# et qui sont donc probablement fausses (sauf si c'est un logement de luxe, donc que j'ai gardé)
-# Le résultat est sauvegardé dans listings_avec_annonces_supprimees.csv
 
 import pandas as pd
 
